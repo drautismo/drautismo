@@ -89,7 +89,6 @@
     background-color: #3700b3;
 }
 
-
 /* Estilo para garantir que o conteúdo dos containers esteja fixado logo abaixo do menu superior */
 #main-content {
     display: flex;
@@ -106,98 +105,74 @@
     width: 100%; /* Garante que cada container ocupe 100% da largura */
 }
 
-.popup-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 90%;
-    max-width: 400px;
-    margin: auto;
-    text-align: left;
-    box-sizing: border-box;
-}
-
-.close-popup {
-    float: right;
-    cursor: pointer;
-    font-size: 24px;
-}
-
-#add-item-form input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    box-sizing: border-box;
-}
-
-#add-item-form button {
-    width: 100%;
-    padding: 10px;
-    background-color: #6200ea;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#add-item-form button:hover {
-    background-color: #3700b3;
-}
-
-/* Animação para a popup */
-.popup.open {
-    transform: translateX(-100%);
-}
-
-/* Adicionar o CSS previamente fornecido aqui */
-
-
+/* Popup Estilos */
 .popup {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    top: 50px; /* Alinha o topo do popup com o bottom do menu superior */
+    left: 0%;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
+    width: 100%; /* Reduz a largura */
+    max-width: 350px; /* Ajusta a largura máxima para telas maiores */
+    height: auto; /* Remove a altura fixa para que a altura se ajuste automaticamente */
+    background-color: rgba(255, 255, 255, 1);
+    z-index: 1003;
     justify-content: center;
     align-items: center;
-    z-index: 1003;
+    border-radius: 10px; /* Arredonda os cantos da popup */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adiciona sombra para um efeito de elevação */
+    padding: 15px; /* Reduz o padding */
+    box-sizing: border-box;
 }
 
+/* Conteúdo da Popup */
 .popup-content {
     background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    width: 300px;
-    text-align: left;
-}
-
-.close-popup {
-    float: right;
-    cursor: pointer;
-    font-size: 24px;
-}
-
-#add-item-form input[type="text"] {
-    width: 100%;
     padding: 10px;
-    margin: 10px 0;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+}
+
+.popup-content h2 {
+    font-size: 14px; /* Reduz o tamanho da fonte do título */
+    margin-bottom: 10px;
+}
+
+.popup-content label {
+    font-size: 12px; /* Reduz o tamanho da fonte dos labels */
+}
+
+.popup-content input[type="text"] {
+    width: 100%;
+    padding: 6px; /* Reduz o padding dos inputs */
+    margin: 5px 0;
+    font-size: 12px; /* Reduz o tamanho da fonte dos inputs */
     box-sizing: border-box;
 }
 
 #add-item-form button {
     width: 100%;
-    padding: 10px;
+    padding: 8px; /* Reduz o padding do botão */
     background-color: #6200ea;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px; /* Reduz o tamanho da fonte do botão */
 }
 
 #add-item-form button:hover {
     background-color: #3700b3;
+}
+
+/* Close Button */
+.close-popup {
+    float: right;
+    cursor: pointer;
+    font-size: 20px; /* Reduz o tamanho da fonte do botão de fechar */
+    margin-top: -10px;
 }
 
 body {
@@ -425,10 +400,10 @@ main {
 
 #floating-button {
     position: fixed;
-    bottom: 50px; /* Ajustado para alinhar com a navbar */
+    bottom: 50px; 
     left: 50%;
     transform: translateX(-50%);
-    background-color: #6200ea;
+    background-color: #5600d4; /* Lilás 10% mais escuro */
     color: white;
     width: 60px;
     height: 60px;
@@ -438,31 +413,33 @@ main {
     align-items: center;
     cursor: pointer;
     z-index: 1002;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s; /* Adiciona transição para rotação */
 }
 
 #floating-button:hover {
-    background-color: #3700b3;
+    background-color: #4d00b0; /* Um tom mais escuro ao hover */
 }
 
 #floating-button .material-icons {
     font-size: 36px;
+    transition: transform 0.3s; /* Adiciona transição para rotação */
 }
+
 
 .floating-options {
     position: absolute;
-    bottom: 240px; /* Ajustado para estar acima do botão flutuante */
-    left: calc(50% - 20px); /* Deslocado 20px para a esquerda */
+    bottom: 240px;
+    left: calc(50% - 20px);
     transform: translateX(-50%);
     display: none;
     width: 180px;
     height: 180px;
-    pointer-events: none; /* Evita interferência ao clicar fora dos botões */
+    pointer-events: none;
 }
 
 .floating-option {
     position: absolute;
-    background-color: #6200ea;
+    background-color: #5600d4; /* Lilás 10% mais escuro */
     color: white;
     width: 50px;
     height: 50px;
@@ -471,11 +448,12 @@ main {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    pointer-events: auto; /* Permite a interação com os botões */
+    pointer-events: auto;
 }
 
+
 .floating-option:hover {
-    background-color: #3700b3;
+    background-color: #4d00b0; /* Um tom mais escuro ao hover */
 }
 
 .floating-option .material-icons {

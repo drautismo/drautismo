@@ -2,14 +2,17 @@ document.getElementById('menu-button').addEventListener('click', function() {
     const sidebar = document.getElementById('sidebar');
     if (sidebar.style.left === '0px') {
         sidebar.style.left = '-250px';
+        showFloatingButton();  // Mostra o botão flutuante ao fechar o menu lateral
     } else {
         sidebar.style.left = '0px';
+        hideFloatingButton();  // Esconde o botão flutuante ao abrir o menu lateral
     }
 });
 
 document.getElementById('close-sidebar').addEventListener('click', function() {
     const sidebar = document.getElementById('sidebar');
     sidebar.style.left = '-250px';
+    showFloatingButton();  // Mostra o botão flutuante ao fechar o menu lateral
 });
 
 const navItems = {
@@ -38,12 +41,12 @@ const navItems = {
         { icon: "straighten", label: "Avaliações Físicas" },
     ],
     section4: [
-        { icon: "restaurant", label: "Alimentação" },  // Ícone de talheres padronizado
-        { icon: "local_drink", label: "Suplementos" },
-        { icon: "local_pharmacy", label: "Medicamentos" },
-        { icon: "healing", label: "Terapias" },
-        { icon: "medical_services", label: "Equipe de Saúde" },  // Ícone de cruz médica para Equipe de Saúde
-        { icon: "interpreter_mode", label: "Interações" },
+        { icon: "accessibility", label: "Neurofísico" },  // Ícone de músculo
+        { icon: "toys", label: "Comportamental" },  // Ícone de blocos empilhados ou joguinho
+        { icon: "psychology", label: "Neuromodulação" },  // Ícone do cérebro
+        { icon: "biotech", label: "Genético" },  // Ícone do DNA
+        { icon: "medical_services", label: "Equipe de Saúde" },  // Mantém o ícone atual
+        { icon: "interpreter_mode", label: "Interações" },  // Mantém o ícone atual
     ],
 };
 
@@ -51,6 +54,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', function () {
         const section = this.getAttribute('data-section');
         updateMainContent(section);
+        showFloatingButton();  // Mostra o botão flutuante ao clicar em um link da navbar
     });
 });
 
@@ -74,14 +78,22 @@ window.onload = function () {
 
 document.getElementById('floating-button').addEventListener('click', function() {
     const options = document.querySelector('.floating-options');
+    const icon = this.querySelector('.material-icons');
+
     if (options.style.display === 'flex') {
         options.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)'; // Gira o ícone de volta para 0 graus
+        icon.textContent = 'add'; // Muda o ícone para "+"
     } else {
         options.style.display = 'flex';
+        icon.style.transform = 'rotate(-45deg)'; // Gira o ícone em 45 graus no sentido anti-horário
+        icon.textContent = 'remove'; // Muda o ícone para "-"
     }
 });
 
 function showDetails(label) {
+    hideFloatingButton();  // Esconde o botão flutuante ao clicar em um botão de grid
+
     const mainContent = document.getElementById('main-content');
     const detailHtml = `
         <div class="details-title">
@@ -204,4 +216,23 @@ document.getElementById('add-item-form').addEventListener('submit', function(e) 
         popup.classList.remove('open');
         popup.style.display = 'none';
     }, 400);
+});
+
+// Funções para controlar a visibilidade do botão flutuante
+function hideFloatingButton() {
+    const floatingButton = document.getElementById('floating-button');
+    floatingButton.style.display = 'none';
+}
+
+function showFloatingButton() {
+    const floatingButton = document.getElementById('floating-button');
+    floatingButton.style.display = 'flex';
+}
+
+// Atualização dos ícones nos círculos flutuantes
+const floatingOptions = document.querySelectorAll('.floating-option');
+const icons = ['emergency', 'help_outline', 'edit', 'shopping_cart', 'event', 'campaign']; // Ícones para Emergência, Dúvida, Caneta, Compra, Consulta, Aviso Geral
+
+floatingOptions.forEach((option, index) => {
+    option.querySelector('.material-icons').textContent = icons[index];
 });
