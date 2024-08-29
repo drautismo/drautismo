@@ -114,19 +114,27 @@ function showDetails(label) {
                 <option value="imaging">Imagem</option>
             </select>
         </div>
-        <div class="details-container" data-name="Exame de Sangue" data-date="2020-02-10" data-category="blood">
-            <h3>Exame de Sangue</h3>
-            <span>Responsável: Laboratório XYZ</span>
-            <span>Período: 10/02/2020 - Até Hoje</span>
-            <span>Função: Verificar se há diabetes</span>
-            <span>Categoria: Sangue</span>
+        <div class="details-container" data-name="Exame de Sangue" data-date="2020-02-10" data-category="blood" onclick="openDetailPopup(this)">
+            <div class="toggle-circle"></div>
+            <div class="info">
+                <h3>Exame de Sangue</h3>
+                <span>Responsável: Laboratório XYZ</span>
+                <span>Período: 10/02/2020 - Até Hoje</span>
+                <span>Função: Verificar se há diabetes</span>
+                <span>Categoria: Sangue</span>
+            </div>
+            <div class="delete-button"><span class="material-icons">delete</span></div>
         </div>
-        <div class="details-container" data-name="Exame de Urina" data-date="2021-03-15" data-category="urine">
-            <h3>Exame de Urina</h3>
-            <span>Responsável: Laboratório ABC</span>
-            <span>Período: 15/03/2021 - 20/03/2021</span>
-            <span>Função: Verificar infecção</span>
-            <span>Categoria: Urina</span>
+        <div class="details-container" data-name="Exame de Urina" data-date="2021-03-15" data-category="urine" onclick="openDetailPopup(this)">
+            <div class="toggle-circle"></div>
+            <div class="info">
+                <h3>Exame de Urina</h3>
+                <span>Responsável: Laboratório ABC</span>
+                <span>Período: 15/03/2021 - 20/03/2021</span>
+                <span>Função: Verificar infecção</span>
+                <span>Categoria: Urina</span>
+            </div>
+            <div class="delete-button"><span class="material-icons">delete</span></div>
         </div>
     `;
     mainContent.innerHTML = detailHtml;
@@ -142,6 +150,86 @@ function showDetails(label) {
 
     document.getElementById('search-input').addEventListener('input', function() {
         searchItems(this.value.toLowerCase());
+    });
+
+    addToggleListeners();
+}
+
+function addToggleListeners() {
+    const toggleCircles = document.querySelectorAll('.toggle-circle');
+    toggleCircles.forEach(circle => {
+        circle.addEventListener('click', function(e) {
+            e.stopPropagation();  // Impede que o clique no círculo abra o popup
+            if (this.style.backgroundColor === 'green') {
+                this.style.backgroundColor = 'gray';
+            } else {
+                this.style.backgroundColor = 'green';
+            }
+        });
+    });
+
+    const detailsContainers = document.querySelectorAll('.details-container');
+    detailsContainers.forEach(container => {
+        container.addEventListener('touchstart', handleTouchStart, false);
+        container.addEventListener('touchmove', handleTouchMove, false);
+        container.addEventListener('touchend', handleTouchEnd, false);
+    });
+}
+
+function handleTouchStart(e) {
+    this.touchStartX = e.touches[0].clientX;
+    this.style.transition = '';
+    this.querySelector('.delete-button').style.opacity = '1'; // Mostrar o botão de exclusão imediatamente
+    this.querySelector('.delete-button').style.width = '0'; // Reseta a largura do botão de exclusão
+}
+
+function handleTouchMove(e) {
+    const touchX = e.touches[0].clientX;
+    const deltaX = touchX - this.touchStartX;
+    const maxDeltaX = -this.offsetWidth * 0.1;
+
+    if (deltaX < 0 && deltaX > maxDeltaX) {
+        this.style.transform = `translateX(${deltaX}px)`;
+        this.querySelector('.delete-button').style.width = `${-deltaX}px`; // Ajusta a largura do botão de exclusão
+    }
+}
+
+function handleTouchEnd(e) {
+    const deltaX = e.changedTouches[0].clientX - this.touchStartX;
+    const threshold = -this.offsetWidth * 0.05; // Limite de 5%
+
+    if (deltaX < threshold) {
+        this.style.transform = `translateX(-${this.offsetWidth * 0.1}px)`;
+        this.querySelector('.delete-button').style.width = `${this.offsetWidth * 0.1}px`; // Define a largura do botão de exclusão
+    } else {
+        this.style.transform = '';
+        this.querySelector('.delete-button').style.width = '0'; // Esconde o botão de exclusão
+        this.querySelector('.delete-button').style.opacity = '0'; // Esconde o botão de exclusão
+    }
+    this.style.transition = 'transform 0.3s ease';
+}
+
+function openDetailPopup(container) {
+    const detailPopup = document.createElement('div');
+    detailPopup.classList.add('popup');
+    detailPopup.innerHTML = `
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h2>${container.querySelector('h3').textContent}</h2>
+            <p>${container.querySelector('.info').innerHTML}</p>
+            <p><strong>Descrição:</strong> Descrição detalhada do item... (texto hipotético)</p>
+        </div>
+    `;
+    document.body.appendChild(detailPopup);
+    detailPopup.style.display = 'flex';
+    detailPopup.style.position = 'fixed';
+    detailPopup.style.top = '50px';
+    detailPopup.style.left = '50%';
+    detailPopup.style.transform = 'translate(-50%, 0)';
+
+    detailPopup.querySelector('.close-popup').addEventListener('click', function() {
+        detailPopup.style.display = 'none';
+        detailPopup.remove();
     });
 }
 
@@ -235,4 +323,20 @@ const icons = ['emergency', 'help_outline', 'edit', 'shopping_cart', 'event', 'c
 
 floatingOptions.forEach((option, index) => {
     option.querySelector('.material-icons').textContent = icons[index];
+});
+
+// JavaScript para a expansão dos subitens
+document.querySelectorAll('.menu-group > span').forEach(item => {
+    item.addEventListener('click', function() {
+        const subMenu = this.nextElementSibling;
+        const isOpen = subMenu.style.display === 'block';
+
+        // Fecha todos os submenus abertos
+        document.querySelectorAll('.sub-menu').forEach(menu => menu.style.display = 'none');
+
+        // Abre ou fecha o submenu atual
+        if (!isOpen) {
+            subMenu.style.display = 'block';
+        }
+    });
 });

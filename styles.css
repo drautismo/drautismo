@@ -95,10 +95,11 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    padding: 10px;
+    padding: 5px;  /* Mantenha o padding mínimo necessário */
     box-sizing: border-box;
     overflow-y: auto;
-    height: calc(100vh - 120px); /* Espaço entre a barra superior e a navbar */
+    height: calc(100vh - 120px); /* Ajuste a altura para compensar o tamanho do header */
+    margin-top: 0; /* Verifique se não há margem superior que possa estar adicionando espaço extra */
 }
 
 #main-content .details-container {
@@ -190,11 +191,19 @@ header {
     justify-content: space-between;
     background-color: #6200ea;
     color: white;
-    padding: 10px;
+    padding: 10px; /* Mantenha o padding necessário */
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1000;
+    box-sizing: border-box; /* Garante que o padding não afete a altura do header */
+    margin-bottom: 0; /* Remova qualquer margem inferior, se houver */
+}
+
+header img {
+    margin: 0 auto;
+    margin-left: 28%;
+    display: block;
 }
 
 header h1 {
@@ -241,6 +250,7 @@ aside {
     color: white;
     font-size: 24px;
     cursor: pointer;
+
 }
 
 .user-profile {
@@ -278,11 +288,15 @@ aside {
 .menu-group ul {
     list-style: none;
     padding: 0;
-    display: none;
+    display: none; /* Esconde os subitens por padrão */
+   list-style-type: none; /* Remove os bullets */
 }
+
+ 
 
 .menu-group ul li {
     margin: 10px 0;
+
 }
 
 .menu-group ul li a {
@@ -355,7 +369,7 @@ main {
     color: white;
     font-size: 28px;
     cursor: pointer;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -425,7 +439,6 @@ main {
     transition: transform 0.3s; /* Adiciona transição para rotação */
 }
 
-
 .floating-options {
     position: absolute;
     bottom: 240px;
@@ -450,7 +463,6 @@ main {
     cursor: pointer;
     pointer-events: auto;
 }
-
 
 .floating-option:hover {
     background-color: #4d00b0; /* Um tom mais escuro ao hover */
@@ -489,4 +501,26 @@ main {
 .floating-options .floating-option:nth-child(6) {
     left: 180px;
     bottom: -190px;
+}
+
+#notification-container {
+    position: relative;
+    display: inline-block;
+}
+
+#notification-badge {
+    position: absolute;
+    top: 5px; /* Ajusta a posição vertical */
+    left: 10px; /* Ajusta a posição horizontal */
+    background-color: red;
+    color: white;
+    font-size: 8px; /* Tamanho de fonte reduzido para 50% */
+    width: 12px; /* Reduz o tamanho do círculo */
+    height: 12px; /* Reduz o tamanho do círculo */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    line-height: 1; /* Garante que o texto esteja centralizado */
 }
