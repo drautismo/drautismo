@@ -1,0 +1,1 @@
+import{_ as a,c as s,a as t,t as o,o as r}from"./index-CEcRukja.js";const c={name:"DetailsView"},i={class:"details-view"};function n(e,l,p,_,d,f){return r(),s("div",i,[t("h2",null,"Details for "+o(e.$route.params.label),1)])}const u=a(c,[["render",n]]);export{u as default};

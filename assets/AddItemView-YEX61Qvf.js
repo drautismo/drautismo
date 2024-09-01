@@ -1,0 +1,1 @@
+import{_ as e,c as t,o as s,a as o}from"./index-CEcRukja.js";const c={name:"AddItemView"},a={class:"add-item-view"},d=o("h2",null,"Add New Item",-1),n=[d];function _(r,i,m,p,l,f){return s(),t("div",a,n)}const u=e(c,[["render",_]]);export{u as default};
