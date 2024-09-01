@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
-  base: '/drautismo/', // Replace with your repository name
+  base: '/drautismo/', // Substitua pelo nome do seu repositório
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
