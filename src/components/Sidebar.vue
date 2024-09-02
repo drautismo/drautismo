@@ -8,45 +8,20 @@
         </div>
     </div>
     <nav>
-        <ul>
-            <li class="menu-group">
-                <span>Acompanhamento</span>
-                <ul class="sub-menu">
-                    <li><a href="#">Neuzanir Costa</a></li>
-                    <li><a href="#">Apolo Costa</a></li>
-                    <li><a href="#">Nicolas Costa</a></li>
-                </ul>
+      <ul>
+        <li v-for="(item, index) in menu" :key="item.title" class="menu-group">
+          <span @click="toggleSubmenu(index)">{{ item.title }}</span>
+          <ul v-if="selectedMenu === index" class="sub-menu">
+            <li v-for="subItem in item.submenus" :key="subItem.title">
+              <a href="#">{{ subItem.title }}</a>
             </li>
-            <li class="menu-group">
-                <span>Relatórios</span>
-                <ul class="sub-menu">
-                    <li><a href="#">Relatório 1</a></li>
-                    <li><a href="#">Relatório 2</a></li>
-                    <li><a href="#">Relatório 3</a></li>
-                    <li><a href="#">Relatório 4</a></li>
-                </ul>
-            </li>
-            <li class="menu-group">
-                <span>Configurações</span>
-                <ul class="sub-menu">
-                    <li><a href="#">Configuração 1</a></li>
-                    <li><a href="#">Configuração 2</a></li>
-                    <li><a href="#">Configuração 3</a></li>
-                    <li><a href="#">Configuração 4</a></li>
-                </ul>
-            </li>
-            <li class="menu-group">
-                <span>+Academia da Inclusão</span>
-                <ul class="sub-menu">
-                    <li><a href="#">Inclusão 1</a></li>
-                    <li><a href="#">Inclusão 2</a></li>
-                </ul>
-            </li>
-        </ul>
+          </ul>
+        </li>
+      </ul>
     </nav>
     <button class="logout-button">Sair</button>
     <button @click="closeSidebar" class="material-icons close-sidebar">close</button>
-</aside>
+  </aside>
 </template>
 
 <script>
@@ -58,9 +33,39 @@ export default {
       required: true
     }
   },
+  data() {
+    return {
+      selectedMenu: null,
+      menu: [
+        {title: "Acompanhamento", submenus: [
+          {title: "Neuzanir Costa"},
+          {title: "Apolo Costa"},
+          {title: "Nicolas Costa"},
+        ]},
+        {title: "Relatórios", submenus: [
+          {title: "Relatório 1"},
+          {title: "Relatório 2"},
+          {title: "Relatório 3"},
+        ]},
+        {title: "Configurações", submenus: [
+          {title: "Configuração 1"},
+          {title: "Configuração 2"},
+          {title: "Configuração 3"},
+        ]},
+        {title: "+Academia da Inclusão", submenus: [
+          {title: "Inclusão 1"},
+          {title: "Inclusão 2"},
+          {title: "Inclusão 3"},
+        ]},
+      ]
+    }
+  },
   methods: {
     closeSidebar() {
       this.$emit('close-sidebar')
+    },
+    toggleSubmenu(index) {
+      this.selectedMenu = this.selectedMenu === index ? null : index;
     }
   }
 }
@@ -143,18 +148,14 @@ aside.open {
 }
 
 .sub-menu {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease;
-}
-
-.sub-menu.open {
-  max-height: 500px; /* Adjust this value based on your needs */
+  display: block;
+  list-style: none;
+  padding: 0;
+  list-style-type: none;
 }
 
 .sub-menu li {
-  margin-left: 20px;
-  margin-top: 10px;
+  margin: 10px 0;
 }
 
 .sub-menu a {
