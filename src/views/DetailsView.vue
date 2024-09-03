@@ -17,23 +17,13 @@
       <option value="imaging">Imagem</option>
     </select>
   </div>
-  <div class="details-container" data-name="Exame de Sangue" data-date="2020-02-10" data-category="blood" onclick="openDetailPopup(this)">
+  <div v-for="exam in exams" :key="exam.name" class="details-container" :data-name="exam.name" :data-date="exam.date" :data-category="exam.category" @click="openDetailPopup($event.currentTarget)">
     <div class="info">
-      <h3>Exame de Sangue</h3>
-      <span>Responsável: Laboratório XYZ</span>
-      <span>Período: 10/02/2020 - Até Hoje</span>
-      <span>Função: Verificar se há diabetes</span>
-      <span>Categoria: Sangue</span>
-    </div>
-    <div class="delete-button"><span class="material-icons">delete</span></div>
-  </div>
-  <div class="details-container" data-name="Exame de Urina" data-date="2021-03-15" data-category="urine" onclick="openDetailPopup(this)">
-    <div class="info">
-      <h3>Exame de Urina</h3>
-      <span>Responsável: Laboratório ABC</span>
-      <span>Período: 15/03/2021 - 20/03/2021</span>
-      <span>Função: Verificar infecção</span>
-      <span>Categoria: Urina</span>
+      <h3>{{ exam.name }}</h3>
+      <span>Responsável: {{ exam.responsible }}</span>
+      <span>Período: {{ exam.period }}</span>
+      <span>Função: {{ exam.function }}</span>
+      <span>Categoria: {{ exam.categoryDisplay }}</span>
     </div>
     <div class="delete-button"><span class="material-icons">delete</span></div>
   </div>
@@ -42,6 +32,30 @@
 <script>
 export default {
   name: 'DetailsView',
+  data() {
+    return {
+      exams: [
+        {
+          name: 'Exame de Sangue',
+          date: '2020-02-10',
+          category: 'blood',
+          responsible: 'Laboratório XYZ',
+          period: '10/02/2020 - Até Hoje',
+          function: 'Verificar se há diabetes',
+          categoryDisplay: 'Sangue'
+        },
+        {
+          name: 'Exame de Urina',
+          date: '2021-03-15',
+          category: 'urine',
+          responsible: 'Laboratório ABC',
+          period: '15/03/2021 - 20/03/2021',
+          function: 'Verificar infecção',
+          categoryDisplay: 'Urina'
+        }
+      ]
+    }
+  },
   // Add any necessary component logic here
 }
 </script>
