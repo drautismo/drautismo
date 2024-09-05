@@ -17,7 +17,7 @@
       <option value="imaging">Imagem</option>
     </select>
   </div>
-  <div v-for="exam in exams" :key="exam.name" class="details-container" :data-name="exam.name" :data-date="exam.date" :data-category="exam.category" @click="openDetailPopup($event.currentTarget)">
+  <div v-for="exam in exams" :key="exam.name" class="details-container" :data-name="exam.name" :data-date="exam.date" :data-category="exam.category" @click="openDetailPopup(exam)">
     <div class="info">
       <h3>{{ exam.name }}</h3>
       <span>Responsável: {{ exam.responsible }}</span>
@@ -27,11 +27,23 @@
     </div>
     <div class="delete-button"><span class="material-icons">delete</span></div>
   </div>
+
+  <!-- Updated popup component -->
+  <GenericPopup :isOpen="!!selectedExam" @close="closePopup">
+    <ExamDetails v-if="selectedExam" :exam="selectedExam" />
+  </GenericPopup>
 </template>
 
 <script>
+import GenericPopup from '@/components/GenericPopup.vue'
+import ExamDetails from '@/components/ExamDetails.vue'
+
 export default {
   name: 'DetailsView',
+  components: {
+    GenericPopup,
+    ExamDetails
+  },
   data() {
     return {
       exams: [
@@ -53,10 +65,18 @@ export default {
           function: 'Verificar infecção',
           categoryDisplay: 'Urina'
         }
-      ]
+      ],
+      selectedExam: null
     }
   },
-  // Add any necessary component logic here
+  methods: {
+    openDetailPopup(exam) {
+      this.selectedExam = exam;
+    },
+    closePopup() {
+      this.selectedExam = null;
+    }
+  }
 }
 </script>
 
